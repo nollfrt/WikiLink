@@ -1,5 +1,5 @@
 GABRIEL
-04/16 - 1 hr revisiting git and studying SQL
+04/15 - 1 hr revisiting git and studying SQL
 
 ----------------------------------------------------------
 SALENA
