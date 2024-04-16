@@ -9,21 +9,23 @@ void setText(int window_width, Text title){
     FloatRect titleRect = title.getLocalBounds();
     title.setOrigin(titleRect.left +titleRect.width / 2.0f,
                     titleRect.top + titleRect.height / 2.0f);
-    title.setPosition(Vector2f((window_width / 2.0f), (window_width / 2.0 - 150)));
+    title.setPosition(Vector2f((window_width *32 / 2.0f), ((window_width +100) / 2.0 - 150)));
 }
 
 int main() {
     int window_width = 700;
+    int header_height = 1000;
     sf::RenderWindow window(VideoMode(window_width, window_width), "Vertically Challenged Link", Style::Close);
     window.setFramerateLimit(60);
     Font Font;
     Text title;
     Font.loadFromFile("font_space_font.ttf");
     title.setFont(Font);
-    title.setString("Vertically Challened Link");
+    title.setString("Vertically Challenged Link");
     title.setCharacterSize(26);
     title.setFillColor(Color::Black);
-    setText(window_width, title);
+    FloatRect titleRect = title.getLocalBounds();
+    setText(100000*32, title);
 
     Text header;
     header.setString("Enter First Word:");
@@ -31,7 +33,7 @@ int main() {
     header.setCharacterSize(24);
     header.setFillColor(Color::Magenta);
     header.setStyle(Text::Bold);
-    setText(window_width, header);
+    setText(header_height, header);
 
 
     while (window.isOpen()){
@@ -44,6 +46,7 @@ int main() {
         }
         window.clear(Color(173, 216, 230));
         window.draw(title);
+        window.draw(header);
         window.display();
     }
 
