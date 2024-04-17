@@ -7,4 +7,4 @@ SALENA
 ----------------------------------------------------------
 SAVANNAH
 04/14 1 hr working on SFML and the window
-04/16 1 hr working on the text for the window and more SFML
+04/16 1 hr 45 min working on the text for the window and more SFML and Sprites
