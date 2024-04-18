@@ -8,3 +8,4 @@ SALENA
 SAVANNAH
 04/14 1 hr working on SFML and the window
 04/16 1 hr 45 min working on the text for the window and more SFML and Sprites
+04/17 1 hr on the text inputs and exit clicking, also research on website grabbing
