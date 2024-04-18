@@ -1,6 +1,9 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <Network/Http.hpp>
+
+// used the font from https://www.fontspace.com/category/ttf;
 
 using namespace std;
 using namespace sf;
@@ -49,6 +52,23 @@ int main() {
     Mario.setPosition(300, 450);
     Mario.setScale(0.1f, 0.1f);
 
+    Text input;
+    input.setFont(Font); // need help with the font
+    input.setCharacterSize(24);
+    input.setFillColor(Color::Red);
+    input.setPosition(270.0f, 100.0f);
+
+    Text input_2;
+    input_2.setFont(Font); // need help with the font
+    input_2.setCharacterSize(24);
+    input_2.setFillColor(Color::Red);
+    input_2.setPosition(270.0f, 275.0f);
+
+    string name_1 = "";
+    string name_2 = "";
+    char ASCII = '0';
+
+
 
     while (window.isOpen()){
         Event event;
@@ -57,12 +77,59 @@ int main() {
                 window.close();
                 return 0;
             }
+            if (event.type == Event::TextEntered && name_1.size() < 30){
+                if(event.text.unicode < 128){
+                    ASCII = static_cast<char>(event.text.unicode);
+                }
+                if(isalpha(ASCII)){
+                    if (name_1.length() == 0){
+                        name_1 += toupper(ASCII);
+                        //setText(Font, input, 270.0f, 275.0f);
+                    }
+                    else if (name_1.length() > 0){
+                        name_1 += toupper(ASCII);
+                    }
+                }
+            }
+            /*if(event.type == Event::KeyPressed){
+                if (event.key.code == Keyboard::Enter){
+                    Event event_2;
+                    if (event_2.type == Event::TextEntered && name_2.size() < 30){
+                        if(event_2.text.unicode < 128){
+                            ASCII = static_cast<char>(event_2.text.unicode);
+                        }
+                        if(isalpha(ASCII)){
+                            if (name_2.length() == 0){
+                                name_2 += toupper(ASCII);
+                                //setText(Font, input, 270.0f, 275.0f);
+                            }
+                            else if (name_2.length() > 0){
+                                name_2 += toupper(ASCII);
+                            }
+                        }
+                    }
+
+
+                }
+            }*/
+            if(Mouse::isButtonPressed(Mouse::Left)){
+                Vector2i click;
+                click = Mouse::getPosition(window);
+                if(Mario.getGlobalBounds().contains(window.mapPixelToCoords(click))){
+                    window.close();
+                }
+            }
+
         }
+        input.setString(name_1);
+        input_2.setString(name_1);
         window.clear(Color(173, 216, 230));
         window.draw(title);
         window.draw(header_2);
         window.draw(header);
         window.draw(Mario);
+        window.draw(input);
+        window.draw(input_2);
         window.display();
     }
 
