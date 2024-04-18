@@ -4,6 +4,7 @@
 
 #include "BiBFS.h"
 #include <iostream>
+#include <stdio.h>
 #include <queue>
 using namespace std;
 
@@ -18,6 +19,7 @@ string BiBFS::get_Redirect(std::string title) {
 }
 
 void BiBFS::bi_bfs(string start, string end) {
+    //check to see if the database is opened
     if(is_Redirect(start) == true){
         string new_start = get_Redirect(start);
         start = new_start;
