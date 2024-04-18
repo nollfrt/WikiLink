@@ -8,36 +8,40 @@
 #include <queue>
 using namespace std;
 
-bool BiBFS::is_Redirect(std::string title) {
-    //check to see if the page is a redirect
-    //if is_redirect within pages in the table is a 1 then find the correct article title
-
-}
-
-string BiBFS::get_Redirect(std::string title) {
+string BiBFS::get_Redirect(std::string s_title) {
     //find the actual article title that is associated with the redirect
+    bool redirect = false;
+    if(SELECT is_redirect FROM pages == 1) {
+        redirect = true;
+        unsigned int targetPageID = SELECT target_id FROM redirects;
+        for (unsigned int i : SELECT id FROM pages) {
+            if (i == targetPageID)
+                s_title = SELECT title.at(i) FROM pages;
+        }
+    }
+    return s_title;
 }
 
 void BiBFS::bi_bfs(string start, string end) {
-    //check to see if the database is opened
-    if(is_Redirect(start) == true){
-        string new_start = get_Redirect(start);
-        start = new_start;
-    }
+    //check to see if the start is a redirect link
+    string new_start = get_Redirect(start);
     //then push it into the queue
-    q.push(start);
+    q.push(new_start);
     while(!q.empty()) {
         string u = q.front();
         q.pop();
-        vector<string> neighbors; //this needs to be initialized
-        for (string page : neighbors) {
-            if(is_Redirect(page) == true){ //checks to see if any of the neighbors are redirects
-                string new_start_ = get_Redirect(page);
-                start = new_start_; //change this to not be start
-            }
-            if (visited.count(page) == 0) {
-                visited.insert(page);
-                q.push(page);
+        vector<unsigned int> neighbors;
+        string list = SELECT outgoing_links FROM links;
+        stringstream ss(list);
+        string token;
+        while(getline(ss, token, '|')) {
+            neighbors.push_back(stoi(token));
+        }
+        for (unsigned int pageID : neighbors) {
+            string new_start_ = get_Redirect(//of the specific title at that page ID);
+            if (visited.count(pageID) == 0) {
+                visited.insert(pageID);
+                q.push(pageID);
             }
             //this is the general code for a regular BFS
             //figure out how to make this bidirectional, fix some of the comments I made, make sure that the set

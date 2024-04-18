@@ -18,7 +18,6 @@ private:
 
 public:
     void bi_bfs(string start, string end);
-    bool is_Redirect(string title);
     string get_Redirect(string title);
 };
 
