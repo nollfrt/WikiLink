@@ -4,6 +4,8 @@
 #include <Network/Http.hpp>
 
 // used the font from https://www.fontspace.com/category/ttf;
+// used SFML website for tutorials on certain commands
+
 
 using namespace std;
 using namespace sf;
@@ -64,6 +66,17 @@ int main() {
     input_2.setFillColor(Color::Red);
     input_2.setPosition(270.0f, 275.0f);
 
+    VertexArray square(sf::Quads, 4);
+    square[0].position = Vector2f(250.0f, 400.0f);
+    square[1].position = Vector2f(450.0f, 400.0f);
+    square[2].position = Vector2f(450.0f, 550.0f);
+    square[3].position = Vector2f(250.0f, 550.0f);
+    square[0].color = Color::Red;
+    square[1].color = Color::Magenta;
+    square[2].color = Color::Blue;
+    square[3].color = Color::Yellow;
+
+
     string name_1 = "";
     string name_2 = "";
     char ASCII = '0';
@@ -115,7 +128,7 @@ int main() {
             if(Mouse::isButtonPressed(Mouse::Left)){
                 Vector2i click;
                 click = Mouse::getPosition(window);
-                if(Mario.getGlobalBounds().contains(window.mapPixelToCoords(click))){
+                if(square.getBounds().contains(window.mapPixelToCoords(click))){
                     window.close();
                 }
             }
@@ -127,9 +140,10 @@ int main() {
         window.draw(title);
         window.draw(header_2);
         window.draw(header);
-        window.draw(Mario);
+        //window.draw(Mario);
         window.draw(input);
         window.draw(input_2);
+        window.draw(square);
         window.display();
     }
 
