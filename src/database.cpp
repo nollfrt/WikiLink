@@ -24,14 +24,14 @@ void database::queryHelper(string select, string from, string where) {
 
 int database::getID(const string& title) {
     // call helper
-    queryHelper("id", "pages", "title=\'" + title + "\' LIMIT=1");
+    queryHelper("id", "pages", "title=\'" + title + "\' LIMIT 1");
     // return id
     return sqlite3_column_int(statement, 0);
 }
 
 bool database::isRedirect(int ID) {
     // call helper
-    queryHelper("is_redirect", "pages", "id=" + to_string(ID) + " LIMIT=1");
+    queryHelper("is_redirect", "pages", "id=" + to_string(ID) + " LIMIT 1");
     // return if ID is redirect
     return sqlite3_column_int(statement, 0);
 }
