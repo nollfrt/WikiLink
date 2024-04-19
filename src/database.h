@@ -14,8 +14,11 @@ using namespace std;
 class database {
 private:
     sqlite3* db;
+    sqlite3_stmt* statement;
 public:
-    int getID(string title);
+    database();
+    void queryHelper(string column, string table, string where);
+    int getID(const string& title);
     bool isRedirect(int ID);
 };
 
