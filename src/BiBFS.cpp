@@ -29,21 +29,15 @@ void BiBFS::bi_bfs(string start, string end) {
     database helper;
 
     //get the id for the start
-    unsigned int start_id = helper.getID(start);
+    int start_id = helper.getID(start);
 
     //then push it into the queue
     q.push(start_id);
     while(!q.empty()) {
         unsigned int u = q.front();
         q.pop();
-        vector<unsigned int> neighbors;
-        string list = SELECT outgoing_links FROM links;
-        stringstream ss(list);
-        string token;
-        while(getline(ss, token, '|')) {
-            neighbors.push_back(stoi(token));
-        }
-        for (unsigned int pageID : neighbors) {
+        vector<int> neighbors = helper.outgoing(start_id);
+        for (int pageID : neighbors) {
             string new_start_ = get_Redirect(//of the specific title at that page ID);
             if (visited.count(pageID) == 0) {
                 visited.insert(pageID);
@@ -66,14 +60,8 @@ void BiBFS::bfs(string start, string end) {
     while(!q.empty()) {
         unsigned int u = q.front();
         q.pop();
-        vector<unsigned int> neighbors;
-        string list = SELECT outgoing_links FROM links;
-        stringstream ss(list);
-        string token;
-        while(getline(ss, token, '|')) {
-            neighbors.push_back(stoi(token));
-        }
-        for (unsigned int pageID : neighbors) {
+        vector<int> neighbors = helper.outgoing(start_id);
+        for (int pageID : neighbors) {
             string new_start_ = get_Redirect(//of the specific title at that page ID);
             if (visited.count(pageID) == 0) {
                 visited.insert(pageID);
