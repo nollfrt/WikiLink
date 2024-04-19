@@ -70,7 +70,7 @@ vector<int> database::incoming(int ID) {
 
 int database::redirectTarget(int ID) {
     // call helper
-    queryHelper("target_id", "redirects", "source_id=\'" + to_string(ID) + "\' LIMIT=1");
+    queryHelper("target_id", "redirects", "source_id=\'" + to_string(ID) + "\' LIMIT 1");
     // return id
     return sqlite3_column_int(statement, 0);
 }
