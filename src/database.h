@@ -21,8 +21,8 @@ public:
     void queryHelper(string column, string table, string where);
     int getID(const string& title);
     bool isRedirect(int ID);
-    vector<string> outgoing(int ID);
-    vector<string> incoming(int ID);
+    vector<int> outgoing(int ID);
+    vector<int> incoming(int ID);
 };
 
 
