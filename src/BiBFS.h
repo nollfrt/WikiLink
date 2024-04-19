@@ -13,10 +13,11 @@ class BiBFS {
 private:
     int numVisited; //total number of titles that are visited
     vector<vector<string>> paths; //all possible paths from the start to the ending title
-    queue<string> q;
+    queue<unsigned int> q;
     set<string> visited;
 
 public:
+    void bfs(string start, string end);
     void bi_bfs(string start, string end);
     string get_Redirect(string title);
 };
