@@ -9,12 +9,16 @@
 #include <set>
 using namespace std;
 
-class BiBFS {
+class BFS_Functions {
 private:
     int numVisited; //total number of titles that are visited
     vector<vector<string>> paths; //all possible paths from the start to the ending title
-    queue<unsigned int> q;
-    set<int> visited;
+    queue<int> q_BFS;
+    set<int> visited_BFS;
+    queue<int> q_BiBFS_start;
+    queue<int> q_BiBFS_end;
+    set<int> visited_BiBFS_start;
+    set<int> visited_BiBFS_end;
 
 public:
     void bfs(string start, string end);
