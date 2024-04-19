@@ -36,32 +36,32 @@ bool database::isRedirect(int ID) {
     return sqlite3_column_int(statement, 0);
 }
 
-vector<string> database::outgoing(int ID) {
+vector<int> database::outgoing(int ID) {
     // call helper
     queryHelper("outgoing_links", "links", "id=" + to_string(ID));
     string links(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0)));
 
     stringstream linksStream(links);
-    vector<string> vec;
+    vector<int> vec;
 
     while(getline(linksStream, links, '|')) {
-        vec.push_back(links);
+        vec.push_back(stoi(links));
     }
 
 
     return vec;
 }
 
-vector<string> database::incoming(int ID) {
+vector<int> database::incoming(int ID) {
     // call helper
     queryHelper("incoming_links", "links", "id=" + to_string(ID));
     string links(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0)));
 
     stringstream linksStream(links);
-    vector<string> vec;
+    vector<int> vec;
 
     while(getline(linksStream, links, '|')) {
-        vec.push_back(links);
+        vec.push_back(stoi(links));
     }
 
 
