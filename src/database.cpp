@@ -3,6 +3,7 @@
 //
 
 #include "database.h"
+#include <sstream>
 
 // Global variable to indicate where database is located
 string DATA_PATH = "../database/sdow.sqlite";
@@ -23,16 +24,48 @@ void database::queryHelper(string column, string table, string where) {
 
 int database::getID(const string& title) {
     // call helper
-    queryHelper("id", "pages", "title=\'" + title + "\'");
+    queryHelper("id", "pages", "title=\'" + title + "\' LIMIT=1");
     // return id
     return sqlite3_column_int(statement, 0);
 }
 
 bool database::isRedirect(int ID) {
     // call helper
-    queryHelper("is_redirect", "pages", "id=" + to_string(ID));
+    queryHelper("is_redirect", "pages", "id=" + to_string(ID) + " LIMIT=1");
     // return if ID is redirect
     return sqlite3_column_int(statement, 0);
+}
+
+vector<string> database::outgoing(int ID) {
+    // call helper
+    queryHelper("outgoing_links", "links", "id=" + to_string(ID));
+    string links(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0)));
+
+    stringstream linksStream(links);
+    vector<string> vec;
+
+    while(getline(linksStream, links, '|')) {
+        vec.push_back(links);
+    }
+
+
+    return vec;
+}
+
+vector<string> database::incoming(int ID) {
+    // call helper
+    queryHelper("incoming_links", "links", "id=" + to_string(ID));
+    string links(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0)));
+
+    stringstream linksStream(links);
+    vector<string> vec;
+
+    while(getline(linksStream, links, '|')) {
+        vec.push_back(links);
+    }
+
+
+    return vec;
 }
 
 
