@@ -14,7 +14,7 @@ private:
     int numVisited; //total number of titles that are visited
     vector<vector<string>> paths; //all possible paths from the start to the ending title
     queue<unsigned int> q;
-    set<string> visited;
+    set<int> visited;
 
 public:
     void bfs(string start, string end);
