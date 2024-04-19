@@ -3,9 +3,13 @@
 #include <SFML/Window.hpp>
 #include <SFML/Network.hpp>
 #include <Network/Http.hpp>
+#include <windows.h>
+#include <shellapi.h>
 
 // used the font from https://www.fontspace.com/category/ttf;
+// https://www.codeproject.com/Questions/265461/Opening-A-Website-with-Cplusplus to help with opening the website
 // used SFML website for tutorials on certain commands
+// used similarities from my mindsweeper for SFML help
 
 
 using namespace std;
@@ -20,13 +24,17 @@ void setText(Font font, Text title, string name, int size){
 
 int main() {
     /*Http http;
-    http.setHost("https://bridgesuncc.github.io/");
+    http.setHost("http://bridges-cs.herokuapp.com");
     Http::Request get;
-    get.setMethod(Http::Request::Post);
-    get.setUri("/tutorials/Data_IGN_Games.html");
+    get.setMethod(Http::Request::Get);
+    get.setUri("/assignments/1/salenatill22");
     get.setHttpVersion(1, 1);
     Http::Response out = http.sendRequest(get);
-    std::cout << "body: " << out.getBody() << std::endl;*/
+    Http::Response::Status status = out.getStatus();
+    if (status == Http::Response::Ok){
+        cout << "body: " << out.getBody() << std::endl;
+    }
+        //std::cout << "body: " << out.getBody() << std::endl;*/
 
     int window_width = 700;
     int header_height = 1000;
@@ -45,7 +53,7 @@ int main() {
     header.setString("Enter First Word:");
     header.setFont(Font); // need help with the font
     header.setCharacterSize(24);
-    header.setFillColor(Color::Magenta);
+    header.setFillColor(Color::Blue);
     header.setStyle(Text::Bold);
     header.setPosition(255.0f, 75.0f);
 
@@ -61,8 +69,15 @@ int main() {
     mario.loadFromFile("images_1/mario.png");
     Sprite Mario;
     Mario.setTexture(mario);
-    Mario.setPosition(300, 450);
+    Mario.setPosition(450, 320);
     Mario.setScale(0.1f, 0.1f);
+
+    Texture spidy;
+    spidy.loadFromFile("images_1/SpiderMan.png");
+    Sprite Spider;
+    Spider.setTexture(spidy);
+    Spider.setPosition(120, 320);
+    Spider.setScale(0.5f, 0.5f);
 
     Text input;
     input.setFont(Font); // need help with the font
@@ -77,14 +92,41 @@ int main() {
     input_2.setPosition(245.0f, 275.0f);
 
     VertexArray square(sf::Quads, 4);
-    square[0].position = Vector2f(250.0f, 400.0f);
-    square[1].position = Vector2f(450.0f, 400.0f);
-    square[2].position = Vector2f(450.0f, 550.0f);
-    square[3].position = Vector2f(250.0f, 550.0f);
-    square[0].color = Color::Red;
-    square[1].color = Color::Magenta;
+    square[0].position = Vector2f(100.0f, 400.0f);
+    square[1].position = Vector2f(300.0f, 400.0f);
+    square[2].position = Vector2f(300.0f, 500.0f);
+    square[3].position = Vector2f(100.0f, 500.0f);
+    square[0].color = Color::Blue;
+    square[1].color = Color::Blue;
     square[2].color = Color::Blue;
-    square[3].color = Color::Yellow;
+    square[3].color = Color::Blue;
+
+    VertexArray bi_square(sf::Quads, 4);
+    bi_square[0].position = Vector2f(400.0f, 400.0f);
+    bi_square[1].position = Vector2f(600.0f, 400.0f);
+    bi_square[2].position = Vector2f(600.0f, 500.0f);
+    bi_square[3].position = Vector2f(400.0f, 500.0f);
+    bi_square[0].color = Color::Red;
+    bi_square[1].color = Color::Red;
+    bi_square[2].color = Color::Red;
+    bi_square[3].color = Color::Red;
+
+    Text BFS;
+    BFS.setString("One Way Search");
+    BFS.setFont(Font); // need help with the font
+    BFS.setCharacterSize(20);
+    BFS.setFillColor(Color::White);
+    BFS.setStyle(Text::Bold);
+    BFS.setPosition(125.0f, 400.0f);
+
+    Text Bi_BFS;
+    Bi_BFS.setString("Two Way Search");
+    Bi_BFS.setFont(Font); // need help with the font
+    Bi_BFS.setCharacterSize(20);
+    Bi_BFS.setFillColor(Color::White);
+    Bi_BFS.setStyle(Text::Bold);
+    Bi_BFS.setPosition(425.0f, 400.0f);
+
 
     VertexArray text_box1(sf::Quads, 4);
     text_box1[0].position = Vector2f(245.0f, 100.0f);
@@ -114,12 +156,23 @@ int main() {
 
     while (window.isOpen()){
         Event event;
+        bool t_b;
         while (window.pollEvent(event)){
             if (event.type == Event::Closed){
                 window.close();
                 return 0;
             }
-            if (event.type == Event::TextEntered && name_1.size() < 30){
+            if(Mouse::isButtonPressed(Mouse::Left)){
+                Vector2i click;
+                click = Mouse::getPosition(window);
+                if(text_box1.getBounds().contains(window.mapPixelToCoords(click))){
+                    t_b = false;
+                }
+                else if(text_box2.getBounds().contains(window.mapPixelToCoords(click))){
+                    t_b = true;
+                }
+            }
+            if (event.type == Event::TextEntered && name_1.size() < 30 && t_b == false){
                 if(event.text.unicode < 128){
                     ASCII = static_cast<char>(event.text.unicode);
                 }
@@ -133,12 +186,34 @@ int main() {
                     }
                 }
             }
-            /*if(event.type == Event::KeyPressed){
-                if (event.key.code == Keyboard::Enter){
-                    Event event_2;
-                    if (event_2.type == Event::TextEntered && name_2.size() < 30){
-                        if(event_2.text.unicode < 128){
-                            ASCII = static_cast<char>(event_2.text.unicode);
+            else if (event.type == Event::TextEntered && name_1.size() < 30 && t_b == true){
+                if(event.text.unicode < 128){
+                    ASCII = static_cast<char>(event.text.unicode);
+                }
+                if(isalpha(ASCII)){
+                    if (name_2.length() == 0){
+                        name_2 += toupper(ASCII);
+                        //setText(Font, input, 270.0f, 275.0f);
+                    }
+                    else if (name_2.length() > 0){
+                        name_2 += toupper(ASCII);
+                    }
+                }
+            }
+            if (event.type == Event::KeyPressed){
+                if (event.key.code == Keyboard::Backspace && t_b == false){
+                    name_1.pop_back();
+                    input.setString(name_1);
+                }
+                else if(event.key.code == Keyboard::Backspace && t_b == true){
+                    name_2.pop_back();
+                    input.setString(name_2);
+                }
+            }
+            /*if(event.type == Event::KeyPressed && event.key.code == Keyboard::Enter){
+
+                        if(event.text.unicode < 128){
+                            ASCII = static_cast<char>(event.text.unicode);
                         }
                         if(isalpha(ASCII)){
                             if (name_2.length() == 0){
@@ -149,15 +224,15 @@ int main() {
                                 name_2 += toupper(ASCII);
                             }
                         }
-                    }
 
-
-                }
             }*/
             if(Mouse::isButtonPressed(Mouse::Left)){
                 Vector2i click;
                 click = Mouse::getPosition(window);
                 if(square.getBounds().contains(window.mapPixelToCoords(click))){
+                    window.close();
+                }
+                else if(bi_square.getBounds().contains(window.mapPixelToCoords(click))){
                     window.close();
                 }
             }
@@ -169,35 +244,38 @@ int main() {
         window.draw(title);
         window.draw(header_2);
         window.draw(header);
-        //window.draw(Mario);
+        window.draw(Mario);
+        window.draw(Spider);
         window.draw(text_box1);
         window.draw(text_box2);
         window.draw(input);
         window.draw(input_2);
         window.draw(square);
+        window.draw(bi_square);
+        window.draw(Bi_BFS);
+        window.draw(BFS);
         window.display();
     }
 
+
+    string link = "https://bridges-cs.herokuapp.com/assignments/1/salenatill22";
+    Text bridges_link;
+    bridges_link.setString("https://bridges-cs.herokuapp.com/assignments/1/salenatill22");
+    bridges_link.setFont(Font); // need help with the font
+    bridges_link.setCharacterSize(20);
+    bridges_link.setFillColor(Color::Red);
+    bridges_link.setStyle(Text::Bold);
+    bridges_link.setPosition(65.0f, 250.0f);
+
     VertexArray graph_square(sf::Quads, 4);
-    graph_square[0].position = Vector2f(50.0f, 350.0f);
-    graph_square[1].position = Vector2f(650.0f, 350.0f);
-    graph_square[2].position = Vector2f(650.0f, 650.0f);
-    graph_square[3].position = Vector2f(50.0f, 650.0f);
+    graph_square[0].position = Vector2f(50.0f, 250.0f);
+    graph_square[1].position = Vector2f(650.0f, 250.0f);
+    graph_square[2].position = Vector2f(650.0f, 350.0f);
+    graph_square[3].position = Vector2f(50.0f, 350.0f);
     graph_square[0].color = Color::White;
     graph_square[1].color = Color::White;
     graph_square[2].color = Color::White;
     graph_square[3].color = Color::White;
-
-
-    VertexArray button(sf::Quads, 4);
-    button[0].position = Vector2f(300.0f, 150.0f);
-    button[1].position = Vector2f(400.0f, 150.0f);
-    button[2].position = Vector2f(400.0f, 250.0f);
-    button[3].position = Vector2f(300.0f, 250.0f);
-    button[0].color = Color::Blue;
-    button[1].color = Color::White;
-    button[2].color = Color::Blue;
-    button[3].color = Color::White;
 
 
 
@@ -211,25 +289,19 @@ int main() {
                 return 0;
             }
             if (new_event.key.code == Keyboard::Enter){
-                return 0;
+                graph_window.close();
+                ShellExecute(NULL, NULL, "https://bridges-cs.herokuapp.com/assignments/1/salenatill22", NULL, NULL, SW_SHOWNORMAL);
+
             }
             if(Mouse::isButtonPressed(Mouse::Left)){
                 Vector2i click;
                 click = Mouse::getPosition(graph_window);
-                if(button.getBounds().contains(graph_window.mapPixelToCoords(click))){
-                    graph_window.close();
-                    sf::RenderWindow window(VideoMode(window_width, window_width), "Vertically Challenged Link", Style::Close);
-                    while(window.isOpen()){
-                        window.draw(Mario);
-                        window.display();
-                        return 0;
-                    }
-                }
+
             }
         }
         graph_window.clear(Color(154, 171, 137));
         graph_window.draw(graph_square);
-        graph_window.draw(button);
+        graph_window.draw(bridges_link);
         graph_window.display();
     }
 
