@@ -23,6 +23,7 @@ public:
     bool isRedirect(int ID);
     vector<int> outgoing(int ID);
     vector<int> incoming(int ID);
+    int redirectTarget(int ID);
 };
 
 

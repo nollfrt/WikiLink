@@ -13,9 +13,9 @@ database::database() {
     sqlite3_open("../database/sdow.sqlite", &db);
 }
 
-void database::queryHelper(string column, string table, string where) {
+void database::queryHelper(string select, string from, string where) {
     // create query string
-    const string query = "SELECT " + column + " FROM " + table + " WHERE " + where + ";";
+    const string query = "SELECT " + select + " FROM " + from + " WHERE " + where + ";";
     // prepare sql statement
     sqlite3_prepare_v2(db, query.c_str(), -1, &statement, nullptr);
     // step into result
@@ -66,6 +66,13 @@ vector<int> database::incoming(int ID) {
 
 
     return vec;
+}
+
+int database::redirectTarget(int ID) {
+    // call helper
+    queryHelper("target_id", "redirects", "source_id=\'" + to_string(ID) + "\' LIMIT=1");
+    // return id
+    return sqlite3_column_int(statement, 0);
 }
 
 
