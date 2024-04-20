@@ -12,8 +12,7 @@ using namespace std;
 class BFS_Functions {
 private:
     int numVisited; //total number of titles that are visited
-    vector<vector<string>> paths; //all possible paths from the start to the ending title
-    queue<int> q_BFS;
+    queue<vector<int>> q_BFS;
     set<int> visited_BFS;
     queue<int> q_BiBFS_start;
     queue<int> q_BiBFS_end;
@@ -21,9 +20,8 @@ private:
     set<int> visited_BiBFS_end;
 
 public:
-    void bfs(string start, string end);
-    void bi_bfs(string start, string end);
-    string get_Redirect(string title);
+    vector<vector<int>> bfs(string start, string end);
+    vector<vector<int>> bi_bfs(string start, string end);
 };
 
 

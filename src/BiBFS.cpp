@@ -8,13 +8,15 @@
 #include <queue>
 using namespace std;
 
-void BFS_Functions::bfs(string start, string end) {
+vector<vector<int>> BFS_Functions::bfs(string start, string end) {
     database helper_BFS;
-    int old_count = 0;
-    int new_count = 0;
+    vector<vector<int>> allPaths_BFS;
 
     //get the id for the start
     int start_id = helper_BFS.getID(start);
+
+    //get the id for the end
+    int end_id = helper_BFS.getID(end);
 
     //check if the id is a redirect
     if (helper_BFS.isRedirect(start_id)) {
@@ -23,12 +25,17 @@ void BFS_Functions::bfs(string start, string end) {
     }
 
     //then push it into the queue
-    q_BFS.push(start_id);
-    old_count++;
+    q_BFS.push({start_id});
 
-    while(visited_BFS.count(end) > 0 && old_count == 0) {
-        int currentVertex = q_BFS.front();
+    while(!q_BFS.empty()) {
+        vector<int> currentPath = q_BFS.front();
         q_BFS.pop();
+        int currentVertex = currentPath.back();
+
+        if (currentVertex == end_id) { //CRUCIAL STEP
+            allPaths_BFS.push_back(currentPath);
+        }
+
         vector<int> neighbors = helper_BFS.outgoing(currentVertex);
         for (int pageID : neighbors) {
             if (helper_BFS.isRedirect(pageID)) {
@@ -37,14 +44,16 @@ void BFS_Functions::bfs(string start, string end) {
             }
             if (visited_BFS.count(pageID) == 0) {
                 visited_BFS.insert(pageID);
-                q_BFS.push(pageID);
+                vector<int> newPath = currentPath;
+                newPath.push_back(pageID);
+                q_BFS.push(newPath);
             }
         }
-        visited_BFS.clear();
     }
+    return allPaths_BFS;
 }
 
-void BFS_Functions::bi_bfs(string start, string end) {
+vector<vector<int>> BFS_Functions::bi_bfs(string start, string end) {
     database helper_BiBFS;
 
     //get the id for the start
