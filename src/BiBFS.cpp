@@ -5,12 +5,13 @@
 #include "BiBFS.h"
 #include "database.h"
 #include <iostream>
-#include <stdio.h>
 #include <queue>
 using namespace std;
 
 void BFS_Functions::bfs(string start, string end) {
     database helper_BFS;
+    int old_count = 0;
+    int new_count = 0;
 
     //get the id for the start
     int start_id = helper_BFS.getID(start);
@@ -23,9 +24,12 @@ void BFS_Functions::bfs(string start, string end) {
 
     //then push it into the queue
     q_BFS.push(start_id);
-    while(!q_BFS.empty()) {
+    old_count++;
+
+    while(visited_BFS.count(end) > 0 && old_count == 0) {
+        int currentVertex = q_BFS.front();
         q_BFS.pop();
-        vector<int> neighbors = helper_BFS.outgoing(start_id);
+        vector<int> neighbors = helper_BFS.outgoing(currentVertex);
         for (int pageID : neighbors) {
             if (helper_BFS.isRedirect(pageID)) {
                 int target_id = helper_BFS.redirectTarget(pageID); //use the getTargetID function
@@ -39,6 +43,7 @@ void BFS_Functions::bfs(string start, string end) {
         visited_BFS.clear();
     }
 }
+
 void BFS_Functions::bi_bfs(string start, string end) {
     database helper_BiBFS;
 
