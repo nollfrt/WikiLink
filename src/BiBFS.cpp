@@ -34,6 +34,7 @@ vector<vector<int>> BFS_Functions::bfs(string start, string end) {
 
         if (currentVertex == end_id) { //CRUCIAL STEP
             allPaths_BFS.push_back(currentPath);
+            break;
         }
 
         vector<int> neighbors = helper_BFS.outgoing(currentVertex);
@@ -42,7 +43,7 @@ vector<vector<int>> BFS_Functions::bfs(string start, string end) {
                 int target_id = helper_BFS.redirectTarget(pageID); //use the getTargetID function
                 pageID = target_id;
             }
-            if (visited_BFS.count(pageID) == 0) {
+            if ((visited_BFS.count(pageID) == 0)) { //if it's not in the set, then add it
                 visited_BFS.insert(pageID);
                 vector<int> newPath = currentPath;
                 newPath.push_back(pageID);
@@ -53,6 +54,7 @@ vector<vector<int>> BFS_Functions::bfs(string start, string end) {
     return allPaths_BFS;
 }
 
+/*
 vector<vector<int>> BFS_Functions::bi_bfs(string start, string end) {
     database helper_BiBFS;
 
@@ -105,3 +107,4 @@ vector<vector<int>> BFS_Functions::bi_bfs(string start, string end) {
 
     }
 }
+*/
