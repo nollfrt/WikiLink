@@ -9,45 +9,61 @@
 using namespace std;
 
 vector<vector<int>> BFS_Functions::bfs(string start, string end) {
-    database helper_BFS;
     vector<vector<int>> allPaths_BFS;
 
-    //get the id for the start
+    // get the id for the start
     int start_id = helper_BFS.getID(start);
-
-    //get the id for the end
+    // get the id for the end
     int end_id = helper_BFS.getID(end);
 
-    //check if the id is a redirect
+    // check if the id is a redirect
     if (helper_BFS.isRedirect(start_id)) {
         int start_target_id = helper_BFS.redirectTarget(start_id); //use the getTargetId function
         start_id = start_target_id;
     }
 
+    // create struct for nodes
+    struct qVal{
+        int val;
+        qVal* past;
+    };
+
+    queue<qVal> q_BFS;
+
+    qVal startVal {start_id, nullptr};
+    qVal returnVal {0, nullptr};
+
     //then push it into the queue
-    q_BFS.push({start_id});
+    q_BFS.push(startVal);
 
     while(!q_BFS.empty()) {
-        vector<int> currentPath = q_BFS.front();
+        qVal currentPath;
+        currentPath = q_BFS.front();
         q_BFS.pop();
-        int currentVertex = currentPath.back();
+        int currentVertex = currentPath.val;
 
         if (currentVertex == end_id) { //CRUCIAL STEP
-            allPaths_BFS.push_back(currentPath);
+            returnVal = currentPath;
             break;
         }
 
         vector<int> neighbors = helper_BFS.outgoing(currentVertex);
         for (int pageID : neighbors) {
+            // check if reached end node
+            if (pageID == end_id) { //CRUCIAL STEP
+                returnVal = currentPath;
+                break;
+            }
             if (helper_BFS.isRedirect(pageID)) {
                 int target_id = helper_BFS.redirectTarget(pageID); //use the getTargetID function
                 pageID = target_id;
             }
             if ((visited_BFS.count(pageID) == 0)) { //if it's not in the set, then add it
+                // add to number of nodes visited
+                numVisited++;
+                // add ID to the set
                 visited_BFS.insert(pageID);
-                vector<int> newPath = currentPath;
-                newPath.push_back(pageID);
-                q_BFS.push(newPath);
+                q_BFS.push(qVal {pageID, &currentPath});
             }
         }
     }
