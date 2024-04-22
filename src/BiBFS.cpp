@@ -34,20 +34,23 @@ vector<vector<int>> BFS_Functions::bfs(string start, string end) {
 
         if (currentVertex == end_id) { //CRUCIAL STEP
             allPaths_BFS.push_back(currentPath);
-            break;
         }
-
-        vector<int> neighbors = helper_BFS.outgoing(currentVertex);
-        for (int pageID : neighbors) {
-            if (helper_BFS.isRedirect(pageID)) {
-                int target_id = helper_BFS.redirectTarget(pageID); //use the getTargetID function
-                pageID = target_id;
-            }
-            if ((visited_BFS.count(pageID) == 0)) { //if it's not in the set, then add it
-                visited_BFS.insert(pageID);
-                vector<int> newPath = currentPath;
-                newPath.push_back(pageID);
-                q_BFS.push(newPath);
+        else {
+            vector<int> neighbors = helper_BFS.outgoing(currentVertex);
+            for (int pageID : neighbors) {
+                if (helper_BFS.isRedirect(pageID)) {
+                    int target_id = helper_BFS.redirectTarget(pageID); //use the getTargetID function
+                    pageID = target_id;
+                }
+                if ((visited_BFS.count(pageID) == 0)) { //if it's not in the set, then add it
+                    visited_BFS.insert(pageID);
+                    vector<int> newPath = currentPath;
+                    newPath.push_back(pageID);
+                    q_BFS.push(newPath);
+                    if (pageID == end_id) {
+                        allPaths_BFS.push_back(newPath);
+                    }
+                }
             }
         }
     }
