@@ -6,6 +6,7 @@
 #define WIKILINK_BIBFS_H
 #include <iostream>
 #include "database.h"
+#include <unordered_map>
 #include <unordered_set>
 using namespace std;
 
@@ -20,6 +21,7 @@ private:
     unordered_set<int> visited_BiBFS_end;
 
 public:
+    vector<Path> get_Paths(vector<PageID>& page_ids, unordered_map<PageID, vector<PageID>>& visted_dict);
     vector<int> bfs(string start, string end);
     vector<vector<int>> bi_bfs(string start, string end);
 };

@@ -7,8 +7,7 @@
 #include <iostream>
 #include <queue>
 #include <unordered_map>
-
-
+#include <vector>
 using namespace std;
 
 vector<int> BFS_Functions::bfs(string start, string end) {
