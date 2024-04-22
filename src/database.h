@@ -24,6 +24,7 @@ public:
     vector<int> outgoing(int ID);
     vector<int> incoming(int ID);
     int redirectTarget(int ID);
+    string getTitle(int id);
 };
 
 
