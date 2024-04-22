@@ -8,7 +8,8 @@
 #include <queue>
 using namespace std;
 
-vector<vector<int>> BFS_Functions::bfs(string start, string end) {
+vector<int> BFS_Functions::bfs(string start, string end) {
+    // PROBABLY NOT USE THAT
     vector<vector<int>> allPaths_BFS;
 
     // get the id for the start
@@ -22,37 +23,25 @@ vector<vector<int>> BFS_Functions::bfs(string start, string end) {
         start_id = start_target_id;
     }
 
-    // create struct for nodes
-    struct qVal{
-        int val;
-        qVal* past;
-    };
-
-    queue<qVal> q_BFS;
-
-    qVal startVal {start_id, nullptr};
-    qVal returnVal {0, nullptr};
+    queue<vector<int>> q_BFS;
 
     //then push it into the queue
-    q_BFS.push(startVal);
+    q_BFS.push({start_id});
 
     while(!q_BFS.empty()) {
-        qVal currentPath;
-        currentPath = q_BFS.front();
+        vector<int> currentPath = q_BFS.front();
         q_BFS.pop();
-        int currentVertex = currentPath.val;
+        int currentVertex = currentPath.back();
 
         if (currentVertex == end_id) { //CRUCIAL STEP
-            returnVal = currentPath;
-            break;
+            return currentPath;
         }
 
         vector<int> neighbors = helper_BFS.outgoing(currentVertex);
         for (int pageID : neighbors) {
             // check if reached end node
             if (pageID == end_id) { //CRUCIAL STEP
-                returnVal = currentPath;
-                break;
+                return currentPath;
             }
             if (helper_BFS.isRedirect(pageID)) {
                 int target_id = helper_BFS.redirectTarget(pageID); //use the getTargetID function
@@ -63,11 +52,12 @@ vector<vector<int>> BFS_Functions::bfs(string start, string end) {
                 numVisited++;
                 // add ID to the set
                 visited_BFS.insert(pageID);
-                q_BFS.push(qVal {pageID, &currentPath});
+                currentPath.push_back(pageID);
+                q_BFS.push(currentPath);
             }
         }
     }
-    return allPaths_BFS;
+    return {};
 }
 
 /*

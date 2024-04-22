@@ -20,7 +20,7 @@ private:
     unordered_set<int> visited_BiBFS_end;
 
 public:
-    vector<vector<int>> bfs(string start, string end);
+    vector<int> bfs(string start, string end);
     vector<vector<int>> bi_bfs(string start, string end);
 };
 
