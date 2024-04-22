@@ -11,4 +11,6 @@ SAVANNAH
 04/17 1 hr on the text inputs and exit clicking, also research on website grabbing
 04/18 30 minutes working on a box to execute stuff
 04/18 2-3 hr working on many things, new screen, text boxes, website uploading
-04/18 5 hrs working on logistics, inputs, opening a website
+04/18 8 hrs working on logistics, inputs, opening a website
+04/22 2 hours working on documentation
+04/22 __ hours working on the implementation of the code to the front end.
