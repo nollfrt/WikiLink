@@ -1,10 +1,13 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include <SFML/Network.hpp>
-#include <Network/Http.hpp>
+//#include "Bridges.h"
+//#include "LinkVisualizer.h"
+//#include "DataSource.h"
+//GraphAdMatrix.h"
 #include <windows.h>
 #include <shellapi.h>
+
 
 // used the font from https://www.fontspace.com/category/ttf;
 // spiderman image https://purepng.com/tags/spider-man
@@ -98,20 +101,20 @@ int main() {
     bi_square[3].color = Color::Red;
 
     Text BFS;
-    BFS.setString("One Way Search");
+    BFS.setString("Breadth First Search");
     BFS.setFont(Font); // need help with the font
     BFS.setCharacterSize(20);
     BFS.setFillColor(Color::White);
     BFS.setStyle(Text::Bold);
-    BFS.setPosition(125.0f, 400.0f);
+    BFS.setPosition(105.0f, 400.0f);
 
     Text Bi_BFS;
-    Bi_BFS.setString("Two Way Search");
+    Bi_BFS.setString("Depth First Search");
     Bi_BFS.setFont(Font); // need help with the font
     Bi_BFS.setCharacterSize(20);
     Bi_BFS.setFillColor(Color::White);
     Bi_BFS.setStyle(Text::Bold);
-    Bi_BFS.setPosition(425.0f, 400.0f);
+    Bi_BFS.setPosition(415.0f, 400.0f);
 
 // creating the text box using the VertexArray of a square
     VertexArray text_box1(sf::Quads, 4);
@@ -245,7 +248,8 @@ int main() {
     graph_square[2].color = Color::White;
     graph_square[3].color = Color::White;
 
-
+//bridges.setDataStructure(input);
+//bridges.visualize();
 
     sf::RenderWindow graph_window(VideoMode(window_width, window_width), "Vertically Challenged Link", Style::Close);
     window.setFramerateLimit(60);
