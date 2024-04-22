@@ -79,8 +79,16 @@ vector<int> BFS_Functions::bfs(string start, string end) {
             }
             // duplicate to fix later
             if (pageID == end_id) { //CRUCIAL STEP
-                returnID = currentVertex;
-                break;
+                allPaths_BFS.push_back(pageID);
+                allPaths_BFS.push_back(currentVertex);
+                while (true) {
+                    pageID = tracePaths[currentVertex][0];
+                    allPaths_BFS.push_back(pageID);
+                    if (pageID == start_id)
+                        break;
+                    currentVertex = pageID;
+                }
+                return allPaths_BFS;
             }
             if ((visited_BFS.count(pageID) == 0)) { //if it's not in the set, then add it
                 // add to number of nodes visited
