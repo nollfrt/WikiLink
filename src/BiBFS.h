@@ -20,7 +20,7 @@ private:
     database helper_DFS;
 
 public:
-    //vector<string> getPageTitle(vector<int> path_BFS);
+    vector<string> getPageTitle(vector<int> path_BFS);
     vector<int> bfs(string start, string end);
     vector<int> dfs(string start, string end);
 };

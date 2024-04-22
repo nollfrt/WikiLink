@@ -102,7 +102,9 @@ vector<int> Traversal_Functions::dfs(string start, string end) {
         visited_DFS.insert(currentVertex);
         vector<int> neighbors = helper_DFS.outgoing(currentVertex);
         for (int id : neighbors) {
-            tracePaths_DFS[id] = currentVertex;
+            if(tracePaths_DFS.find(id) == tracePaths_DFS.end()){
+                tracePaths_DFS[id] = currentVertex;
+            }
             if (visited_DFS.count(id) == 0 && std::find(s_DFS.begin(), s_DFS.end(), id) == s_DFS.end()) {
                 if (id == end_id) {
                     path_DFS.push_back(id);
@@ -121,3 +123,5 @@ vector<int> Traversal_Functions::dfs(string start, string end) {
     }
     return {};
 }
+
+
