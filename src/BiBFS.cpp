@@ -52,8 +52,9 @@ vector<int> BFS_Functions::bfs(string start, string end) {
                 numVisited++;
                 // add ID to the set
                 visited_BFS.insert(pageID);
-                currentPath.push_back(pageID);
-                q_BFS.push(currentPath);
+                vector<int> newPath = currentPath;
+                newPath.push_back(pageID);
+                q_BFS.push(newPath);
             }
         }
     }
