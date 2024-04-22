@@ -20,6 +20,7 @@ public:
     database();
     void queryHelper(string column, string table, string where);
     int getID(const string& title);
+    string getTitle(int ID);
     bool isRedirect(int ID);
     vector<int> outgoing(int ID);
     vector<int> incoming(int ID);
