@@ -8,23 +8,21 @@
 #include "database.h"
 #include <unordered_map>
 #include <unordered_set>
+#include <queue>
 using namespace std;
 
-class BFS_Functions {
+class Traversal_Functions {
 private:
     int numVisited; //total number of titles that are visited
     unordered_set<int> visited_BFS;
+    unordered_set<int> visited_DFS;
     database helper_BFS;
-//    queue<int> q_BiBFS_start;
-//    queue<int> q_BiBFS_end;
-    unordered_set<int> visited_BiBFS_start;
-    unordered_set<int> visited_BiBFS_end;
+    database helper_DFS;
 
 public:
-    vector<Path> get_Paths(vector<PageID>& page_ids, unordered_map<PageID, vector<PageID>>& visted_dict);
+    //vector<string> getPageTitle(vector<int> path_BFS);
     vector<int> bfs(string start, string end);
-    vector<vector<int>> bi_bfs(string start, string end);
+    vector<int> dfs(string start, string end);
 };
-
 
 #endif //WIKILINK_BIBFS_H

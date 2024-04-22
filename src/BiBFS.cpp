@@ -8,10 +8,11 @@
 #include <queue>
 #include <unordered_map>
 #include <vector>
+#include <stack>
 using namespace std;
 
-vector<int> BFS_Functions::bfs(string start, string end) {
-    vector<int> allPaths_BFS;
+vector<int> Traversal_Functions::bfs(string start, string end) {
+    vector<int> path_BFS;
 
     // get the id for the start
     int start_id = helper_BFS.getID(start);
@@ -24,135 +25,105 @@ vector<int> BFS_Functions::bfs(string start, string end) {
         start_id = start_target_id;
     }
 
-//    // create struct for nodes
-//    struct qVal{
-//        int val;
-//        qVal* past;
-//    };
-
     // create map to store ID to its incoming links
-    unordered_map<int, vector<int>> tracePaths;
+    unordered_map<int, vector<int>> tracePaths_BFS;
     // add start_id to path pointing to empty vector
-    tracePaths[start_id] = {};
+    tracePaths_BFS[start_id] = {};
 
     // create queue
     queue<int> q_BFS;
 
-//    queue<qVal> q_BFS;
-//
-//    qVal startVal {start_id, nullptr};
-//    qVal returnVal {0, nullptr};
-
     //then push it into the queue
     q_BFS.push(start_id);
 
-    int returnID = 0;
-
-    while(!q_BFS.empty() && allPaths_BFS.empty()) {
+    while(!q_BFS.empty() && path_BFS.empty()) {
         int currentVertex = q_BFS.front();
         q_BFS.pop();
-
-//        if (currentVertex == end_id) { //CRUCIAL STEP
-//            returnVal = currentPath;
-//            break;
-//        }
 
         vector<int> neighbors = helper_BFS.outgoing(currentVertex);
         for (int pageID : neighbors) {
             // check if reached end node
             if (pageID == end_id) { //CRUCIAL STEP
-                allPaths_BFS.push_back(pageID);
-                allPaths_BFS.push_back(currentVertex);
+                path_BFS.push_back(pageID);
+                path_BFS.push_back(currentVertex);
                 while (true) {
-                    pageID = tracePaths[currentVertex][0];
-                    allPaths_BFS.push_back(pageID);
+                    pageID = tracePaths_BFS[currentVertex][0];
+                    path_BFS.push_back(pageID);
                     if (pageID == start_id)
                         break;
                     currentVertex = pageID;
                 }
-                return allPaths_BFS;
+                return path_BFS;
             }
             if (helper_BFS.isRedirect(pageID)) {
                 int target_id = helper_BFS.redirectTarget(pageID); //use the getTargetID function
                 pageID = target_id;
             }
-            // duplicate to fix later
-            if (pageID == end_id) { //CRUCIAL STEP
-                allPaths_BFS.push_back(pageID);
-                allPaths_BFS.push_back(currentVertex);
-                while (true) {
-                    pageID = tracePaths[currentVertex][0];
-                    allPaths_BFS.push_back(pageID);
-                    if (pageID == start_id)
-                        break;
-                    currentVertex = pageID;
-                }
-                return allPaths_BFS;
-            }
             if ((visited_BFS.count(pageID) == 0)) { //if it's not in the set, then add it
-                // add to number of nodes visited
-                numVisited++;
-                // add ID to the set
                 visited_BFS.insert(pageID);
-                tracePaths[pageID] = {currentVertex};
+                tracePaths_BFS[pageID] = {currentVertex};
                 q_BFS.push(pageID);
             }
         }
     }
-    return allPaths_BFS;
+    return path_BFS;
 }
 
-/*
-vector<vector<int>> BFS_Functions::bi_bfs(string start, string end) {
-    database helper_BiBFS;
+vector<int> Traversal_Functions::dfs(string start, string end) {
+    vector<int> path_DFS;
+    int depthLevel = 0;
 
-    //get the id for the start
-    int front_id = helper_BiBFS.getID(start);
-    int back_id = helper_BiBFS.getID(end);
+    // get the id for the start
+    int start_id = helper_DFS.getID(start);
+    // get the id for the end
+    int end_id = helper_DFS.getID(end);
 
-    //then push it into the queue
-    q_BiBFS_start.push(front_id);
-    q_BiBFS_end.push(back_id);
-    while(!q_BiBFS_start.empty() && !q_BiBFS_end.empty()) {
-        q_BiBFS_start.pop();
-
-        //BFS from the front
-        vector<int> neighbors_front = helper_BiBFS.outgoing(front_id);
-        for (int pageID_front : neighbors_front) {
-            if (helper_BiBFS.isRedirect(pageID_front)) {
-                int target_id = helper_BiBFS.redirectTarget(pageID_front); //use the getTargetID function
-                pageID_front = target_id;
-            }
-            if (visited_BiBFS_start.count(pageID_front) == 0) {
-                visited_BiBFS_start.insert(pageID_front);
-                q_BiBFS_start.push(pageID_front);
-            }
-            //check to see if they have met
-            if (visited_BiBFS_end.count(pageID_front) > 0) {
-                cout << "Meeting point found: " << pageID_front << endl;
-                return;
-            }
-        }
-
-        //BFS from the back
-        q_BiBFS_end.pop();
-        vector<int> neighbors_end = helper_BiBFS.incoming(back_id);
-        for (int pageID_end : neighbors_end) {
-            if (helper_BiBFS.isRedirect(pageID_end)) {
-                int target_id = helper_BiBFS.redirectTarget(pageID_end); //use the getTargetID function
-                pageID_end = target_id;
-            }
-            if (visited_BiBFS_end.count(pageID_end) == 0) {
-                visited_BiBFS_end.insert(pageID_end);
-                q_BiBFS_end.push(pageID_end);
-            }
-            //check to see if they have met
-            if (visited_BiBFS_start.count(pageID_end) > 0) {
-                cout << "Meeting point found: " << pageID_end << endl;
-                return;
-            }
-        }
-
+    // check if the id is a redirect
+    if (helper_DFS.isRedirect(start_id)) {
+        int start_target_id = helper_DFS.redirectTarget(start_id); //use the getTargetId function
+        start_id = start_target_id;
     }
+
+    // create map to store ID to its incoming links
+    unordered_map<int, vector<int>> tracePaths_DFS;
+    // add start_id to path pointing to empty vector
+    tracePaths_DFS[start_id] = {};
+
+    // create stack
+    stack<int> s_DFS;
+
+    //then push it into the stack
+    s_DFS.push(start_id);
+
+    while(!s_DFS.empty() && path_DFS.empty()) {
+        int currentVertex = s_DFS.top();
+        s_DFS.pop();
+
+        vector<int> neighbors = helper_DFS.outgoing(currentVertex);
+        for (int pageID : neighbors) {
+            // check if reached end node
+            if (pageID == end_id) { //CRUCIAL STEP
+                path_DFS.push_back(pageID);
+                path_DFS.push_back(currentVertex);
+                while (true) {
+                    pageID = tracePaths_DFS[currentVertex][0];
+                    path_DFS.push_back(pageID);
+                    if (pageID == start_id)
+                        break;
+                    currentVertex = pageID;
+                }
+                return path_DFS;
+            }
+            if (helper_DFS.isRedirect(pageID)) {
+                int target_id = helper_DFS.redirectTarget(pageID); //use the getTargetID function
+                pageID = target_id;
+            }
+            if ((visited_DFS.count(pageID) == 0)) { //if it's not in the set, then add it
+                visited_DFS.insert(pageID);
+                tracePaths_DFS[pageID] = {currentVertex};
+                s_DFS.push(pageID);
+            }
+        }
+    }
+    return path_DFS;
 }
-*/
