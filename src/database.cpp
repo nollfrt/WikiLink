@@ -36,6 +36,14 @@ bool database::isRedirect(int ID) {
     return sqlite3_column_int(statement, 0);
 }
 
+string database::getTitle(int ID) {
+    // call helper
+    queryHelper("title", "pages", "id=" + to_string(ID) + " LIMIT 1");
+    // return title
+    string title(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0)));
+    return title;
+}
+
 vector<int> database::outgoing(int ID) {
     // call helper
     queryHelper("outgoing_links", "links", "id=" + to_string(ID));
