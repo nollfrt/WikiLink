@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <vector>
 #include <stack>
+#include <algorithm>
 using namespace std;
 
 vector<int> Traversal_Functions::bfs(string start, string end) {
@@ -84,46 +85,39 @@ vector<int> Traversal_Functions::dfs(string start, string end) {
         start_id = start_target_id;
     }
 
-    // create map to store ID to its incoming links
-    unordered_map<int, vector<int>> tracePaths_DFS;
+    // create map; key is currentVertex; value is parent of currentVertex
+    unordered_map<int, int> tracePaths_DFS;
     // add start_id to path pointing to empty vector
-    tracePaths_DFS[start_id] = {};
+    tracePaths_DFS[start_id] = -1;
 
-    // create stack
-    stack<int> s_DFS;
+    // create deque
+    deque<int> s_DFS;
 
-    //then push it into the stack
-    s_DFS.push(start_id);
+    //then push it into the deque
+    s_DFS.push_back(start_id);
 
-    while(!s_DFS.empty() && path_DFS.empty()) {
-        int currentVertex = s_DFS.top();
-        s_DFS.pop();
-
+    while(!s_DFS.empty()) {
+        int currentVertex = s_DFS.back();
+        s_DFS.pop_back();
+        visited_DFS.insert(currentVertex);
         vector<int> neighbors = helper_DFS.outgoing(currentVertex);
-        for (int pageID : neighbors) {
-            // check if reached end node
-            if (pageID == end_id) { //CRUCIAL STEP
-                path_DFS.push_back(pageID);
-                path_DFS.push_back(currentVertex);
-                while (true) {
-                    pageID = tracePaths_DFS[currentVertex][0];
-                    path_DFS.push_back(pageID);
-                    if (pageID == start_id)
-                        break;
-                    currentVertex = pageID;
+        for (int id : neighbors) {
+            tracePaths_DFS[id] = currentVertex;
+            if (visited_DFS.count(id) == 0 && std::find(s_DFS.begin(), s_DFS.end(), id) == s_DFS.end()) {
+                if (id == end_id) {
+                    path_DFS.push_back(id);
+                    while (id != -1) {
+                        id = tracePaths_DFS[id];
+                        path_DFS.push_back(id);
+                        if (id == start_id)
+                            break;
+                    }
+                    reverse(path_DFS.begin(), path_DFS.end());
+                    return path_DFS;
                 }
-                return path_DFS;
-            }
-            if (helper_DFS.isRedirect(pageID)) {
-                int target_id = helper_DFS.redirectTarget(pageID); //use the getTargetID function
-                pageID = target_id;
-            }
-            if ((visited_DFS.count(pageID) == 0)) { //if it's not in the set, then add it
-                visited_DFS.insert(pageID);
-                tracePaths_DFS[pageID] = {currentVertex};
-                s_DFS.push(pageID);
+                s_DFS.push_back(id);
             }
         }
     }
-    return path_DFS;
+    return {};
 }
