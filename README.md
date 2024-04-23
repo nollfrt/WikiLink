@@ -14,6 +14,7 @@ This is the template for Project 3 repositories. It includes all the assignment 
 			- [Commits](#commits)
 				- [Guidelines for good commit messages](#guidelines-for-good-commit-messages)
 			- [Pull Requests](#pull-requests)
+   - 		- [Step 5: How to utilize the program](#step-5-how-to-utilize-the-program)
 	- [Markdown and README](#markdown-and-readme)
 	- [Additional Resources and Documentation:](#additional-resources-and-documentation)
 		- [General Documentation](#general-documentation)
@@ -70,6 +71,10 @@ More information about [collaborators](https://docs.github.com/en/repositories/m
 ### Step 4: Development
 
 During the development of your software, you will have to perform several tasks. In project 3a, you agreed on how you will distribute these tasks. GitHub has several features that can help you keep track of these, so please make sure to use them.
+
+### Step 5: How to utilize the program
+
+To utilize the program, the user would type in the first article link to be used as the first node. Then the user would type in the second article link in the second text box. They would then press the "Generate search" button to start the BFS and DFS. After the searches have been done, the new screen will pop up and will show in the left most box, the BFS amount of nodes that it used and in the rightmost box the DFS for the amount of nodes done. To exit the program, you simply press the exit or close button at the top right to exit the program.
 
 #### Issues:
 
