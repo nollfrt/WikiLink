@@ -1,0 +1,5 @@
+C:\Users\salen\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=C:/Users/salen/AppData/Local/Programs/CLion/bin/ninja/win/x64/ninja.exe -DCMAKE_TOOLCHAIN_FILE=C:\Users\salen\.vcpkg-clion\vcpkg\scripts\buildsystems\vcpkg.cmake -G Ninja -S C:\Users\salen\OneDrive\Documents\Code\WikiLink -B C:\Users\salen\OneDrive\Documents\Code\WikiLink\cmake-build-debug
+-- Found SFML 2.6.1 in C:/Users/salen/OneDrive/Documents/Code/WikiLink/SFML-2.6.1/lib/cmake/SFML
+-- Configuring done (1.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: C:/Users/salen/OneDrive/Documents/Code/WikiLink/cmake-build-debug

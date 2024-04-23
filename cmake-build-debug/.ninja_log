@@ -1,0 +1,21 @@
+# ninja log v5
+5	1535	7355394748414324	build.ninja	ed6603c93101985
+23	1427	7355356840949168	CMakeFiles/WikiLink.dir/src/main.cpp.obj	c71b904fcde0a3b
+43	2327	7355393886328153	CMakeFiles/WikiLink.dir/src/database.cpp.obj	cbec8aafd8ffb180
+13	9230	7355356918756942	CMakeFiles/WikiLink.dir/requirements/sqlite3.c.obj	f1a94750f2183c83
+53	2249	7355393885520586	CMakeFiles/WikiLink.dir/src/test.cpp.obj	c5fff19a2cdcb2
+34	3477	7355393897812630	CMakeFiles/WikiLink.dir/src/BiBFS.cpp.obj	cf78ef7a9f25a744
+3480	7907	7355393908680420	WikiLink.exe	1de0093bd7e98f30
+7	3240	7355394795770647	CMakeFiles/WikiLink.dir/main.cpp.obj	fd09b365f75ed017
+4	105	7355395466841555	CMakeFiles/WikiLink.dir/src/test.cpp.obj	c5fff19a2cdcb2
+106	3608	7355395476096692	WikiLink.exe	b28fef95e11cc444
+8	8436	7355397867469349	CMakeFiles/WikiLink.dir/main.cpp.obj	fd09b365f75ed017
+8438	12804	7355397880333618	WikiLink.exe	b28fef95e11cc444
+18	2887	7355402481076876	CMakeFiles/WikiLink.dir/main.cpp.obj	fd09b365f75ed017
+2890	6049	7355402491121878	WikiLink.exe	b28fef95e11cc444
+22	2670	7355403821158956	CMakeFiles/WikiLink.dir/main.cpp.obj	fd09b365f75ed017
+2672	5580	7355403830281748	WikiLink.exe	b28fef95e11cc444
+17	3392	7355410067386419	CMakeFiles/WikiLink.dir/main.cpp.obj	fd09b365f75ed017
+3394	6275	7355410076229086	WikiLink.exe	b28fef95e11cc444
+27	3379	7355417219417174	CMakeFiles/WikiLink.dir/main.cpp.obj	fd09b365f75ed017
+3383	6706	7355417229869942	WikiLink.exe	b28fef95e11cc444
