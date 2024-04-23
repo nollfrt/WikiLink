@@ -72,7 +72,6 @@ vector<int> Traversal_Functions::bfs(string start, string end) {
 
 vector<int> Traversal_Functions::dfs(string start, string end) {
     vector<int> path_DFS;
-    int depthLevel = 0;
 
     // get the id for the start
     int start_id = helper_DFS.getID(start);
